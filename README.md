@@ -63,6 +63,9 @@ That's it! No more errors!
 
 ## License
 
+MonoLogger was originally created for Chef:
+https://github.com/opscode/chef/commit/634ad58ab14d6cfa05f56991bbc758cc3b22d410
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
