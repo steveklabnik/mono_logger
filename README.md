@@ -1,5 +1,7 @@
 # MonoLogger
 
+[![Build Status](https://travis-ci.org/steveklabnik/mono_logger.png?branch=master)](https://travis-ci.org/steveklabnik/mono_logger) [![Code Climate](https://codeclimate.com/github/steveklabnik/mono_logger.png)](https://codeclimate.com/github/steveklabnik/mono_logger)
+
 Ruby's stdlib Logger wraps all IO in mutexes. Ruby 2.0 doesn't allow you to
 request a lock in a trap handler because that could deadlock. This gem fixes
 this issue by giving you a lock-free logger class.
