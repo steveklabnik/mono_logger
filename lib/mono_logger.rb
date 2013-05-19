@@ -28,7 +28,7 @@ class MonoLogger < Logger
   #
   # Create an instance.
   #
-  def initialize(logdev)
+  def initialize(logdev, shift_age=nil, shift_size=nil)
     @progname = nil
     @level = DEBUG
     @default_formatter = Formatter.new
