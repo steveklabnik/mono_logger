@@ -336,6 +336,7 @@ class TestLogDevice < Minitest::Test
   end
 
   def test_write
+    skip 'Rubinius crashes in logger.write' if rubinius?
     r, w = IO.pipe
     logdev = d(w)
     logdev.write("msg2\n\n")
