@@ -10,8 +10,8 @@ class MonoLogger < Logger
   #
   # === Synopsis
   #
-  #   Logger.new(name, shift_age = 7, shift_size = 1048576)
-  #   Logger.new(name, shift_age = 'weekly')
+  #   MonoLogger.new(STDOUT)
+  #   MonoLogger.new(filename)
   #
   # === Args
   #
@@ -19,10 +19,9 @@ class MonoLogger < Logger
   #   The log device.  This is a filename (String) or IO object (typically
   #   +STDOUT+, +STDERR+, or an open file).
   # +shift_age+::
-  #   Number of old log files to keep, *or* frequency of rotation (+daily+,
-  #   +weekly+ or +monthly+).
+  #   ignored in MonoLogger
   # +shift_size+::
-  #   Maximum logfile size (only applies when +shift_age+ is a number).
+  #   ignored in MonoLogger
   #
   # === Description
   #
