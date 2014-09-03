@@ -9,14 +9,21 @@ end
 require 'coveralls'
 Coveralls.wear!
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'mono_logger'
 require 'tempfile'
+
+if defined? Minitest::Test
+  # We're on Minitest 5+. Nothing to do here.
+else
+  # Minitest 4 doesn't have Minitest::Test yet.
+  Minitest::Test = MiniTest::Unit::TestCase
+end
 
 Logger = MonoLogger
 
 
-class TestLoggerSeverity < Test::Unit::TestCase
+class TestLoggerSeverity < Minitest::Test
   def test_enum
     logger_levels = Logger.constants
     levels = ["WARN", "UNKNOWN", "INFO", "FATAL", "DEBUG", "ERROR"]
@@ -29,7 +36,7 @@ class TestLoggerSeverity < Test::Unit::TestCase
 end
 
 
-class TestLogger < Test::Unit::TestCase
+class TestLogger < Minitest::Test
   include Logger::Severity
 
   def setup
@@ -270,7 +277,7 @@ class TestLogger < Test::Unit::TestCase
   end
 end
 
-class TestLogDevice < Test::Unit::TestCase
+class TestLogDevice < Minitest::Test
   class LogExcnRaiser
     def write(*arg)
       raise 'disk is full'
@@ -329,6 +336,7 @@ class TestLogDevice < Test::Unit::TestCase
   end
 
   def test_write
+    skip 'Rubinius crashes in logger.write' if rubinius?
     r, w = IO.pipe
     logdev = d(w)
     logdev.write("msg2\n\n")
@@ -344,9 +352,7 @@ class TestLogDevice < Test::Unit::TestCase
     end
     $stderr, stderr = stderr, $stderr
     begin
-      assert_nothing_raised do
-        logdev.write('hello')
-      end
+      logdev.write('hello')
     ensure
       logdev.close
       $stderr, stderr = stderr, $stderr
@@ -491,7 +497,7 @@ class TestLogDevice < Test::Unit::TestCase
 end
 
 
-class TestLoggerApplication < Test::Unit::TestCase
+class TestLoggerApplication < Minitest::Test
   def setup
     @app = Logger::Application.new('appname')
     @tempfile = Tempfile.new("logger")
