@@ -11,6 +11,8 @@ Coveralls.wear!
 
 require 'minitest/autorun'
 require 'mono_logger'
+# Logger::Application was dropped at Ruby 2.2.
+require 'logger-application' unless defined?(Logger::Application)
 require 'tempfile'
 
 if defined? Minitest::Test
