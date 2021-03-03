@@ -305,7 +305,7 @@ class TestLogDevice < Minitest::Test
   end
 
   def d(log, opt = {})
-    Logger::LogDevice.new(log, opt)
+    Logger::LogDevice.new(log, **opt)
   end
 
   def test_initialize
