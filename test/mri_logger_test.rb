@@ -262,7 +262,7 @@ class TestLogger < Minitest::Test
     r, w = IO.pipe
     logger = Logger.new(w)
     logger << "msg"
-    read_ready, = IO.select([r], nil, nil, 0.1)
+    _, = IO.select([r], nil, nil, 0.1)
     w.close
     msg = r.read
     r.close
@@ -271,7 +271,7 @@ class TestLogger < Minitest::Test
     r, w = IO.pipe
     logger = Logger.new(w)
     logger << "msg2\n\n"
-    read_ready, = IO.select([r], nil, nil, 0.1)
+    _, = IO.select([r], nil, nil, 0.1)
     w.close
     msg = r.read
     r.close
@@ -338,11 +338,10 @@ class TestLogDevice < Minitest::Test
   end
 
   def test_write
-    skip 'Rubinius crashes in logger.write' if rubinius?
     r, w = IO.pipe
     logdev = d(w)
     logdev.write("msg2\n\n")
-    read_ready, = IO.select([r], nil, nil, 0.1)
+    _, = IO.select([r], nil, nil, 0.1)
     w.close
     msg = r.read
     r.close
@@ -366,7 +365,7 @@ class TestLogDevice < Minitest::Test
     r, w = IO.pipe
     logdev = d(w)
     logdev.write("msg2\n\n")
-    read_ready, = IO.select([r], nil, nil, 0.1)
+    _, = IO.select([r], nil, nil, 0.1)
     assert(!w.closed?)
     logdev.close
     assert(w.closed?)
