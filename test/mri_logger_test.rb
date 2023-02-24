@@ -103,16 +103,19 @@ class TestLogger < Minitest::Test
   end
 
   def test_datetime_format
+    # We use strip because we don't care about the upstream changes that
+    # happened to whitespace, and this makes the test behave the same
+    # regardless of Ruby/Logger version.
     dummy = STDERR
     logger = Logger.new(dummy)
     log = log_add(logger, INFO, "foo")
-    assert_match(/^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d.\s*\d+ $/, log.datetime)
+    assert_match(/^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d.\s*\d+$/, log.datetime.strip)
     logger.datetime_format = "%d%b%Y@%H:%M:%S"
     log = log_add(logger, INFO, "foo")
-    assert_match(/^\d\d\w\w\w\d\d\d\d@\d\d:\d\d:\d\d$/, log.datetime)
+    assert_match(/^\d\d\w\w\w\d\d\d\d@\d\d:\d\d:\d\d$/, log.datetime.strip)
     logger.datetime_format = ""
     log = log_add(logger, INFO, "foo")
-    assert_match(/^$/, log.datetime)
+    assert_match(/^$/, log.datetime.strip)
   end
 
   def test_formatter
